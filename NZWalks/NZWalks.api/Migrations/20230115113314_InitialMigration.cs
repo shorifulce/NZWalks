@@ -18,10 +18,10 @@ namespace NZWalks.api.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Area = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Lat = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Long = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Population = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Area = table.Column<double>(type: "float", nullable: false),
+                    Lat = table.Column<double>(type: "float", nullable: false),
+                    Long = table.Column<double>(type: "float", nullable: false),
+                    Population = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {

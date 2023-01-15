@@ -12,7 +12,7 @@ using NZWalks.api.Data;
 namespace NZWalks.api.Migrations
 {
     [DbContext(typeof(NZWalksDbContext))]
-    [Migration("20230114234959_InitialMigration")]
+    [Migration("20230115113314_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -31,29 +31,25 @@ namespace NZWalks.api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Area")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<double>("Area")
+                        .HasColumnType("float");
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Lat")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<double>("Lat")
+                        .HasColumnType("float");
 
-                    b.Property<string>("Long")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<double>("Long")
+                        .HasColumnType("float");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Population")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long>("Population")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
