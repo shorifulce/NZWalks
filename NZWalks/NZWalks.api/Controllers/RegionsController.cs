@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using NZWalks.api.Models.Domain;
+using NZWalks.api.Repositories;
 
 namespace NZWalks.api.Controllers
 {
@@ -7,38 +9,50 @@ namespace NZWalks.api.Controllers
     [Route("[controller]")]
     public class RegionsController : Controller
     {
-        [HttpGet]
-        public IActionResult GetAllRegions()
+        private readonly IRegionRepository regionRepository;
+        private readonly IMapper mapper;
+
+
+
+        // As IRegionRepository gives me regionRepository from the service definied program.cs 
+        // I can get all the method of regionRepository class 
+        public RegionsController(IRegionRepository regionRepository,IMapper mapper)
         {
+            this.regionRepository = regionRepository;
+            this.mapper = mapper;
+        }
 
 
-            var regions = new List<Region>()
-            {
-                new Region
-                {
-                    Id=Guid.NewGuid(),
-                    Name="Wllington",
-                    Code="WLG",
-                    Area=22144,
-                    Lat=-1.8822,
-                    Long=2999.88,
-                    Population=50000
+        [HttpGet]
+        public async Task<IActionResult> GetAllRegions()
+        {
+            var regions=await regionRepository.GetAllAsync();
+            // return DTo regions
+            //var regionsDTO = new List<Models.DTO.Region>();
 
-                },
-                new Region
-                {
-                    Id=Guid.NewGuid(),
-                    Name="Auckland",
-                    Code="AuUCK",
-                    Area=227755,
-                    Lat=-1.8822,
-                    Long=2999.88,
-                    Population=50000
+            //regions.ToList().ForEach(region =>
+            //{
+            //    var regionDTo = new Models.DTO.Region()
+            //    {
+            //        Id = region.Id,
+            //        Code = region.Code,
+            //        Name = region.Name,
+            //        Area = region.Area,
+            //        Lat = region.Lat,
+            //        Long = region.Long,
+            //        Population = region.Population,
+            //    };
+            //    regionsDTO.Add(regionDTo);
+            //});
 
-                },
-            };
-           
-            return Ok(regions);  
+            // all regions come from regionRepository.GetAll()
+            // we are maiping regions to DTO
+
+            var regionsDTO = mapper.Map<List<Models.DTO.Region>>(regions);
+
+            return Ok(regionsDTO);
+
+            // when I call GetAll() ,it will call the method of GetAll from RegionRepositoy class
             //ok means 200 success comming back from restapi
 
         }

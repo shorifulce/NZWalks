@@ -23,6 +23,10 @@ builder.Services.AddDbContext<NZWalksDbContext>(options =>{
 
 builder.Services.AddScoped<IRegionRepository, RegionRepository>();
 
+//Here We have injected automapper. when application start it will call the assembly my automapper for using all Profiles class
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
+
 
 
 var app = builder.Build();
