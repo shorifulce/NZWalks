@@ -8,6 +8,7 @@ namespace NZWalks.api.Profiles
         {
             CreateMap<Models.Domain.Region,Models.DTO.Region>();
             CreateMap<Models.Domain.Walk, Models.DTO.Walk>();
+            CreateMap<Models.Domain.WalkDifficulty, Models.DTO.WalkDifficulty>();
 
         }
 
