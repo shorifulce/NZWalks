@@ -22,6 +22,7 @@ builder.Services.AddDbContext<NZWalksDbContext>(options =>{
 // it means if I call IRegionRepository interface, it will give the implemnetaion of RegionRepository
 
 builder.Services.AddScoped<IRegionRepository, RegionRepository>();
+builder.Services.AddScoped<IWalksRepository, WalksRepository>();
 
 //Here We have injected automapper. when application start it will call the assembly my automapper for using all Profiles class
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
