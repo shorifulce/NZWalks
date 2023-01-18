@@ -85,7 +85,7 @@ namespace NZWalks.api.Controllers
 
             if(!ValidateAddRegionAysnc(addRegionRequest))
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
 
             // Request DTO to Domain Model
@@ -162,6 +162,11 @@ namespace NZWalks.api.Controllers
         [Route("{id:guid}")]
         public async Task<IActionResult> UpdateRegionAsync([FromRoute ]Guid id, [FromBody] Models.DTO.UpdateRegionRequest updateRegionRequest)
         {
+
+            if (!ValidateUpdateRegionAsync(updateRegionRequest))
+            {
+                return BadRequest(ModelState);
+            }
             // Request DTO to Domain Model
 
             var region = new Models.Domain.Region()
@@ -206,7 +211,7 @@ namespace NZWalks.api.Controllers
 
         #region Private methods
 
-        private Boolean ValidateAddRegionAysnc(Models.DTO.AddRegionRequest addRegionRequest)
+        private bool ValidateAddRegionAysnc(Models.DTO.AddRegionRequest addRegionRequest)
         {
             if(addRegionRequest ==null)
             {
@@ -259,6 +264,60 @@ namespace NZWalks.api.Controllers
 
         }
 
+        private bool ValidateUpdateRegionAsync(Models.DTO.UpdateRegionRequest updateRegionRequest)
+        {
+            // same as addvalidateMethod
+            if (updateRegionRequest == null)
+            {
+                ModelState.AddModelError(nameof(updateRegionRequest), $"Add Region data is required.");
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(updateRegionRequest.Code))
+            {
+                ModelState.AddModelError(nameof(updateRegionRequest.Code), $"{nameof(updateRegionRequest.Code)} can not be null or empty or white pace. ");
+
+            }
+
+            if (string.IsNullOrWhiteSpace(updateRegionRequest.Name))
+            {
+                ModelState.AddModelError(nameof(updateRegionRequest.Name), $"{nameof(updateRegionRequest.Name)} can not be null or empty or white pace. ");
+
+            }
+
+            if (updateRegionRequest.Area <= 0)
+            {
+                ModelState.AddModelError(nameof(updateRegionRequest.Area), $"{nameof(updateRegionRequest.Area)} can not be less than or equal to zero. ");
+
+            }
+
+
+            if (updateRegionRequest.Lat <= 0)
+            {
+                ModelState.AddModelError(nameof(updateRegionRequest.Lat), $"{nameof(updateRegionRequest.Lat)} can not be less than or equal to zero. ");
+
+            }
+
+            if (updateRegionRequest.Long <= 0)
+            {
+                ModelState.AddModelError(nameof(updateRegionRequest.Long), $"{nameof(updateRegionRequest.Long)} can not be less than or equal to zero.");
+
+            }
+            if (updateRegionRequest.Population <= 0)
+            {
+                ModelState.AddModelError(nameof(updateRegionRequest.Population), $"{nameof(updateRegionRequest.Population)} can not be less than or equal to zero.");
+
+            }
+
+            if (ModelState.ErrorCount > 0)
+            {
+                return false;
+            }
+
+            return true;
+
+            return true;
+        }
         #endregion
 
     }
