@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using NZWalks.api.Models.Domain;
@@ -9,6 +10,8 @@ namespace NZWalks.api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+   
+    // I can use authorize also individually upper of a method below
     public class RegionsController : Controller
     {
         private readonly IRegionRepository regionRepository;
@@ -26,6 +29,7 @@ namespace NZWalks.api.Controllers
 
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAllRegionsAync()
         {
             var regions=await regionRepository.GetAllAsync();
@@ -62,6 +66,7 @@ namespace NZWalks.api.Controllers
         [HttpGet]
         [Route("{id:guid}")]
         [ActionName("GetRegionAsync")]
+        [Authorize]
         public async Task<IActionResult> GetRegionAsync(Guid id)
         {
             var region = await regionRepository.GetAsync(id);
@@ -78,15 +83,21 @@ namespace NZWalks.api.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> AddRegionAsync(Models.DTO.AddRegionRequest addRegionRequest)
         {
-            // Validation the request
+            //Fluentt validation
+
+
+
+
+            // Validation the request, this normal validation 
             // if validation fails it means ! 
 
-            if(!ValidateAddRegionAysnc(addRegionRequest))
-            {
-                return BadRequest(ModelState);
-            }
+            //if (!ValidateAddRegionAysnc(addRegionRequest))
+            //{
+            //    return BadRequest(ModelState);
+            //}
 
             // Request DTO to Domain Model
 
@@ -124,7 +135,8 @@ namespace NZWalks.api.Controllers
 
 
         [HttpDelete]
-        [Route("{id:guid}")] 
+        [Route("{id:guid}")]
+        [Authorize]
         public async Task<IActionResult> DeleteRegionAsync(Guid id)
         {
             //Get  region from Database
@@ -160,13 +172,18 @@ namespace NZWalks.api.Controllers
 
         [HttpPut]
         [Route("{id:guid}")]
+        [Authorize]
         public async Task<IActionResult> UpdateRegionAsync([FromRoute ]Guid id, [FromBody] Models.DTO.UpdateRegionRequest updateRegionRequest)
         {
+            // I have used fluent validations
 
-            if (!ValidateUpdateRegionAsync(updateRegionRequest))
-            {
-                return BadRequest(ModelState);
-            }
+
+
+            // validation
+            //if (!ValidateUpdateRegionAsync(updateRegionRequest))
+            //{
+            //    return BadRequest(ModelState);
+            //}
             // Request DTO to Domain Model
 
             var region = new Models.Domain.Region()

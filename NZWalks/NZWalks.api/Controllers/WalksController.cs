@@ -59,6 +59,8 @@ namespace NZWalks.api.Controllers
         [HttpPost]
         public async Task<IActionResult> AddWalkjAsync(Models.DTO.AddWalksRequest addWalksRequest)
         {
+            // Normal validation is good but we can use both normal and fluent validation
+
             //validate the incomeing request
             if(!(await ValidateAddWalkAysnc(addWalksRequest)))
             {
@@ -101,6 +103,8 @@ namespace NZWalks.api.Controllers
         [Route("{id:guid}")]
         public async Task<IActionResult> UpdateWalkAsync([FromRoute] Guid id, [FromBody] Models.DTO.UpdateWalksRequest updateWalksRequest)
         {
+
+            // 
 
             //validate the incomeing request
             if (!(await ValidateUpdateWalkAsync(updateWalksRequest)))
