@@ -29,7 +29,7 @@ namespace NZWalks.api.Controllers
 
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles ="reader")]
         public async Task<IActionResult> GetAllRegionsAync()
         {
             var regions=await regionRepository.GetAllAsync();
@@ -66,7 +66,7 @@ namespace NZWalks.api.Controllers
         [HttpGet]
         [Route("{id:guid}")]
         [ActionName("GetRegionAsync")]
-        [Authorize]
+        [Authorize(Roles = "reader")]
         public async Task<IActionResult> GetRegionAsync(Guid id)
         {
             var region = await regionRepository.GetAsync(id);
@@ -83,7 +83,7 @@ namespace NZWalks.api.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> AddRegionAsync(Models.DTO.AddRegionRequest addRegionRequest)
         {
             //Fluentt validation
@@ -136,7 +136,7 @@ namespace NZWalks.api.Controllers
 
         [HttpDelete]
         [Route("{id:guid}")]
-        [Authorize]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> DeleteRegionAsync(Guid id)
         {
             //Get  region from Database
@@ -172,7 +172,7 @@ namespace NZWalks.api.Controllers
 
         [HttpPut]
         [Route("{id:guid}")]
-        [Authorize]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> UpdateRegionAsync([FromRoute ]Guid id, [FromBody] Models.DTO.UpdateRegionRequest updateRegionRequest)
         {
             // I have used fluent validations
